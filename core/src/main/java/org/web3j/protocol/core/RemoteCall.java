@@ -14,10 +14,17 @@ import org.web3j.utils.Async;
  */
 public class RemoteCall<T> {
 
-    private Callable<T> callable;
+    private Callable<T>      callable;
+    private Callable<String> offline;
 
+    public RemoteCall(Callable<T> callable, Callable<String> offline) {
+        this.callable = callable;
+        this.offline = offline;
+    }
     public RemoteCall(Callable<T> callable) {
         this.callable = callable;
+        this.offline = () -> {
+            throw new UnsupportedOperationException("not supported.");};
     }
 
     /**
@@ -37,6 +44,16 @@ public class RemoteCall<T> {
      */
     public CompletableFuture<T> sendAsync() {
         return Async.run(this::send);
+    }
+
+    /**
+     * Perform meke raw transaction binary
+     *
+     * @return result of enclosed function
+     * @throws Exception if the function throws an exception
+     */
+    public String make() throws Exception {
+        return offline.call();
     }
 
     /**

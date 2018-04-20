@@ -1,6 +1,7 @@
 package org.web3j.tx;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 
 import org.web3j.protocol.Web3j;
@@ -47,5 +48,16 @@ public class ClientTransactionManager extends TransactionManager {
 
         return web3j.ethSendTransaction(transaction)
                 .send();
+    }
+
+    @Override
+    public String make(BigInteger gasPrice, BigInteger gasLimit, String to, String data,
+                       BigInteger value) throws IOException {
+        throw new UnsupportedEncodingException("not supported.");
+    }
+
+    @Override
+    public EthSendTransaction sendTransaction(String txHex) throws IOException {
+        return web3j.ethSendRawTransaction(txHex).send();
     }
 }

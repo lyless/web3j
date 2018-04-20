@@ -83,4 +83,18 @@ public abstract class ManagedTransaction {
         return transactionManager.executeTransaction(
                 gasPrice, gasLimit, to, data, value);
     }
+    protected String make(
+            String to, String data, BigInteger value, BigInteger gasPrice, BigInteger gasLimit)
+            throws IOException, TransactionException {
+
+        return transactionManager.make(
+                gasPrice, gasLimit, to, data, value);
+    }
+    protected TransactionReceipt send(
+            String txHash)
+            throws IOException, TransactionException {
+
+        return transactionManager.executeTransaction(
+                txHash);
+    }
 }

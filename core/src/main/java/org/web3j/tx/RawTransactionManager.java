@@ -91,6 +91,29 @@ public class RawTransactionManager extends TransactionManager {
         return signAndSend(rawTransaction);
     }
 
+    @Override
+    public String make(BigInteger gasPrice, BigInteger gasLimit, String to, String data,
+                       BigInteger value) throws IOException {
+        BigInteger nonce = getNonce();
+        RawTransaction rawTransaction = RawTransaction.createTransaction(
+                nonce,
+                gasPrice,
+                gasLimit,
+                to,
+                value,
+                data);
+        byte[] signedMessage;
+
+        if (chainId > ChainId.NONE) {
+            signedMessage = TransactionEncoder.signMessage(rawTransaction, chainId, credentials);
+        } else {
+            signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+        }
+
+        String hexValue = Numeric.toHexString(signedMessage);
+        return hexValue;
+    }
+
     public EthSendTransaction signAndSend(RawTransaction rawTransaction)
             throws IOException {
 
@@ -105,5 +128,10 @@ public class RawTransactionManager extends TransactionManager {
         String hexValue = Numeric.toHexString(signedMessage);
 
         return web3j.ethSendRawTransaction(hexValue).send();
+    }
+
+    @Override
+    public EthSendTransaction sendTransaction(String txHex) throws IOException {
+        return web3j.ethSendRawTransaction(txHex).send();
     }
 }

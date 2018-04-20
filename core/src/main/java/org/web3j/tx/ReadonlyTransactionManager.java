@@ -21,5 +21,19 @@ public class ReadonlyTransactionManager extends TransactionManager {
             throws IOException {
         throw new UnsupportedOperationException(
                 "Only read operations are supported by this transaction manager");
+
+    }
+
+    @Override
+    public String make(BigInteger gasPrice, BigInteger gasLimit, String to, String data,
+                       BigInteger value) throws IOException {
+        throw new UnsupportedOperationException(
+                "Only read operations are supported by this transaction manager");
+    }
+
+    @Override
+    public EthSendTransaction sendTransaction(String txHex) throws IOException {
+        throw new UnsupportedOperationException(
+                "Only read operations are supported by this transaction manager");
     }
 }
