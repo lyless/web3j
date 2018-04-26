@@ -116,7 +116,7 @@ Maven
 
 Java 8:
 
-.. code-block:: xml
+.. code-traceTransaction:: xml
 
    <dependency>
      <groupId>org.web3j</groupId>
@@ -126,7 +126,7 @@ Java 8:
 
 Android:
 
-.. code-block:: xml
+.. code-traceTransaction:: xml
 
    <dependency>
      <groupId>org.web3j</groupId>
@@ -139,13 +139,13 @@ Gradle
 
 Java 8:
 
-.. code-block:: groovy
+.. code-traceTransaction:: groovy
 
    compile ('org.web3j:core:3.3.1')
 
 Android:
 
-.. code-block:: groovy
+.. code-traceTransaction:: groovy
 
    compile ('org.web3j:core:3.3.1-android')
 
@@ -156,19 +156,19 @@ Start a client
 Start up an Ethereum client if you don't already have one running, such as
 `Geth <https://github.com/ethereum/go-ethereum/wiki/geth>`_:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ geth --rpcapi personal,db,eth,net,web3 --rpc --testnet
 
 Or `Parity <https://github.com/paritytech/parity>`_:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ parity --chain testnet
 
 Or use `Infura <https://infura.io/>`_, which provides **free clients** running in the cloud:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    Web3j web3 = Web3j.build(new HttpService("https://ropsten.infura.io/your-token"));
 
@@ -184,7 +184,7 @@ Start sending requests
 
 To send synchronous requests:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
    Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();
@@ -193,7 +193,7 @@ To send synchronous requests:
 
 To send asynchronous requests using a CompletableFuture (Future on Android):
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
    Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().sendAsync().get();
@@ -201,7 +201,7 @@ To send asynchronous requests using a CompletableFuture (Future on Android):
 
 To use an RxJava Observable:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
    web3.web3ClientVersion().observable().subscribe(x -> {
@@ -211,7 +211,7 @@ To use an RxJava Observable:
 
 **Note:** for Android use:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    Web3j web3 = Web3jFactory.build(new HttpService());  // defaults to http://localhost:8545/
    ...
@@ -224,7 +224,7 @@ web3j also supports fast inter-process communication (IPC) via file sockets to c
 the same host as web3j. To connect simply use the relevant *IpcService* implementation instead of
 *HttpService* when you create your service:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    // OS X/Linux/Unix:
    Web3j web3 = Web3j.build(new UnixIpcService("/path/to/socketfile"));
@@ -245,19 +245,19 @@ without leaving the JVM.
 
 To generate the wrapper code, compile your smart contract:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ solc <contract>.sol --bin --abi --optimize -o <output-dir>/
 
 Then generate the wrapper code using web3j's `Command line tools`_:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    web3j solidity generate /path/to/<smart-contract>.bin /path/to/<smart-contract>.abi -o /path/to/src/main/java -p com.your.organisation.name
 
 Now you can create and deploy your smart contract:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
    Credentials credentials = WalletUtils.loadCredentials("password", "/path/to/walletfile");
@@ -269,7 +269,7 @@ Now you can create and deploy your smart contract:
 
 Alternatively, if you use `Truffle <http://truffleframework.com/>`_, you can make use of its `.json` output files:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    # Inside your Truffle project
    $ truffle compile
@@ -277,7 +277,7 @@ Alternatively, if you use `Truffle <http://truffleframework.com/>`_, you can mak
 
 Then generate the wrapper code using web3j's `Command line tools`_:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ cd /path/to/your/web3j/java/project
    $ web3j truffle generate /path/to/<truffle-smart-contract-output>.json -o /path/to/src/main/java -p com.your.organisation.name
@@ -286,14 +286,14 @@ Whether using `Truffle` or `solc` directly, either way you get a ready-to-use Ja
 
 So, to use an existing contract:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    YourSmartContract contract = YourSmartContract.load(
            "0x<address>|<ensName>", <web3j>, <credentials>, GAS_PRICE, GAS_LIMIT);
 
 To transact with a smart contract:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    TransactionReceipt transactionReceipt = contract.someMethod(
                 <param1>,
@@ -301,7 +301,7 @@ To transact with a smart contract:
 
 To call a smart contract:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    Type result = contract.someMethod(<param1>, ...).send();
 
@@ -316,24 +316,24 @@ of events taking place on the blockchain.
 
 To receive all new blocks as they are added to the blockchain:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
-   Subscription subscription = web3j.blockObservable(false).subscribe(block -> {
+   Subscription subscription = web3j.blockObservable(false).subscribe(traceTransaction -> {
        ...
    });
 
 To receive all new transactions as they are added to the blockchain:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    Subscription subscription = web3j.transactionObservable().subscribe(tx -> {
        ...
    });
 
 To receive all pending transactions as they are submitted to the network (i.e. before they have
-been grouped into a block together):
+been grouped into a traceTransaction together):
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    Subscription subscription = web3j.pendingTransactionObservable().subscribe(tx -> {
        ...
@@ -342,19 +342,19 @@ been grouped into a block together):
 Or, if you'd rather replay all blocks to the most current, and be notified of new subsequent
 blocks being created:
 
-.. code-block:: java
+.. code-traceTransaction:: java
    Subscription subscription = catchUpToLatestAndSubscribeToNewBlocksObservable(
            <startBlockNumber>, <fullTxObjects>)
-           .subscribe(block -> {
+           .subscribe(traceTransaction -> {
                ...
    });
 
-There are a number of other transaction and block replay Observables described in the
+There are a number of other transaction and traceTransaction replay Observables described in the
 `docs <http://docs.web3j.io/filters.html>`_.
 
 Topic filters are also supported:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    EthFilter filter = new EthFilter(DefaultBlockParameterName.EARLIEST,
            DefaultBlockParameterName.LATEST, <contract-address>)
@@ -365,7 +365,7 @@ Topic filters are also supported:
 
 Subscriptions should always be cancelled when no longer required:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    subscription.unsubscribe();
 
@@ -384,7 +384,7 @@ client admin commands for sending transactions.
 
 To send Ether to another party using your Ethereum wallet file:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 		
    Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
    Credentials credentials = WalletUtils.loadCredentials("password", "/path/to/walletfile");
@@ -395,7 +395,7 @@ To send Ether to another party using your Ethereum wallet file:
 
 Or if you wish to create your own custom transaction:
 
-.. code-block:: java
+.. code-traceTransaction:: java
 
    Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
    Credentials credentials = WalletUtils.loadCredentials("password", "/path/to/walletfile");
@@ -421,7 +421,7 @@ for transacting with Ether.
 Using an Ethereum client's admin commands (make sure you have your wallet in the client's
 keystore):
 
-.. code-block:: java
+.. code-traceTransaction:: java
   		
    Admin web3j = Admin.build(new HttpService());  // defaults to http://localhost:8545/
    PersonalUnlockAccount personalUnlockAccount = web3j.personalUnlockAccount("0x000...", "a password").sendAsync().get();
@@ -543,14 +543,14 @@ client running, you can exclude their execution as per the below instructions.
 
 To run a full build (excluding integration tests):
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ ./gradlew check
 
 
 To run the integration tests:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ ./gradlew  -Pintegration-tests=true :integration-tests:test
 

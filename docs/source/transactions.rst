@@ -119,7 +119,7 @@ are used to dictate how much Ether you wish to spend in order for a tranaction t
 *Gas limit*
 
   This is the total amount of gas you are happy to spend on the transaction execution. There is an
-  upper limit of how large a single transaction can be in an Ethereum block which restricts this
+  upper limit of how large a single transaction can be in an Ethereum traceTransaction which restricts this
   value typically to less then 6,700,000. The current gas limit is visible at https://ethstats.net/.
 
 

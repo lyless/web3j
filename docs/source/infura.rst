@@ -39,7 +39,7 @@ can create the client just like the regular HTTPClient::
    Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();
    System.out.println(web3ClientVersion.getWeb3ClientVersion());
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    Geth/v1.7.2-stable-1db4ecdc/darwin-amd64/go1.9.1
 

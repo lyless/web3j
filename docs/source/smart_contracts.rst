@@ -49,7 +49,7 @@ locally following the instructions as per
 
 To compile the Solidity code run:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ solc <contract>.sol --bin --abi --optimize -o <output-dir>/
 
@@ -152,7 +152,7 @@ files.
 
 The web3j :doc:`command_line` tools ship with a command line utility for generating the smart contract function wrappers:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ web3j solidity generate [--javaTypes|--solidityTypes] /path/to/<smart-contract>.bin /path/to/<smart-contract>.abi -o /path/to/src/main/java -p com.your.organisation.name
 
@@ -162,7 +162,7 @@ using the *--solidityTypes* command line argument.
 
 You can also generate the wrappers by calling the Java class directly:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    org.web3j.codegen.SolidityFunctionWrapperGenerator /path/to/<smart-contract>.bin /path/to/<smart-contract>.abi -o /path/to/src/main/java -p com.your.organisation.name
 
@@ -185,13 +185,13 @@ web3j also supports the generation of Java smart contract function wrappers dire
 `Contract Schema <https://github.com/trufflesuite/truffle-contract-schema>`_
 via the :doc:`command_line` utility.
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ web3j truffle generate [--javaTypes|--solidityTypes] /path/to/<truffle-smart-contract-output>.json -o /path/to/src/main/java -p com.your.organisation.name
 
 And this also can be invoked by calling the Java class:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    org.web3j.codegen.TruffleJsonFunctionWrapperGenerator /path/to/<truffle-smart-contract-output>.json -o /path/to/src/main/java -p com.your.organisation.name
 
@@ -369,7 +369,7 @@ associated with the transaction is returned.::
 
 The transaction receipt is useful for two reasons:
 
-#. It provides details of the mined block that the transaction resides in
+#. It provides details of the mined traceTransaction that the transaction resides in
 #. `Solidity events <http://Solidity.readthedocs.io/en/develop/contracts.html?highlight=events#events>`_
    that are called will be logged as part of the transaction, which can then be extracted
 

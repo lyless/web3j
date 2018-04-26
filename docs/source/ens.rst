@@ -22,7 +22,7 @@ contract wrappers, when you load them, such as::
 
 Also, when performing Ether transfers, such as using the command line tools:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ web3j wallet send <walletfile> 0x<address>|<ensName>
 
@@ -41,7 +41,7 @@ The resolution process is as follows:
 
 - Check to see if our Ethereum node is fully synced
 - If not fail
-- If it is synced, check the timestamp on the most recent block it has.
+- If it is synced, check the timestamp on the most recent traceTransaction it has.
     - If it's more than 3 minutes old, fail.
     - Otherwise perform the lookup
 

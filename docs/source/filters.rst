@@ -17,8 +17,8 @@ that you provide.
 Unfortunately, unless you are using a WebSocket connection to Geth, working with filters via the
 JSON-RPC API is a tedious process, where you need to poll the Ethereum client in order to find out
 if there are any updates to your filters due to the synchronous nature of HTTP and IPC requests.
-Additionally the block and transaction filters only provide the transaction or block hash, so a
-further request is required to obtain the actual transaction or block referred to by the hash.
+Additionally the traceTransaction and transaction filters only provide the transaction or traceTransaction hash, so a
+further request is required to obtain the actual transaction or traceTransaction referred to by the hash.
 
 web3j's managed `Filter <https://github.com/web3j/web3j/blob/master/core/src/main/java/org/web3j/protocol/core/filters/Filter.java>`_
 implementation address these issues, so you have a fully asynchronous event based API for working
@@ -36,7 +36,7 @@ Block and transaction filters
 To receive all new blocks as they are added to the blockchain (the false parameter specifies that
 we only want the blocks, not the embedded transactions too)::
 
-   Subscription subscription = web3j.blockObservable(false).subscribe(block -> {
+   Subscription subscription = web3j.blockObservable(false).subscribe(traceTransaction -> {
        ...
    });
 
@@ -47,7 +47,7 @@ To receive all new transactions as they are added to the blockchain::
    });
 
 To receive all pending transactions as they are submitted to the network (i.e. before they have
-been grouped into a block together)::
+been grouped into a traceTransaction together)::
 
    Subscription subscription = web3j.pendingTransactionObservable().subscribe(tx -> {
        ...
@@ -57,7 +57,7 @@ Subscriptions should always be cancelled when no longer required via *unsubscrib
 
    subscription.unsubscribe();
 
-Other callbacks are also provided which provide simply the block or transaction hashes,
+Other callbacks are also provided which provide simply the traceTransaction or transaction hashes,
 for details of these refer to the
 `Web3jRx <https://github.com/web3j/web3j/blob/master/core/src/main/java/org/web3j/protocol/rx/Web3jRx.java>`_
 interface.
@@ -66,13 +66,13 @@ interface.
 Replay filters
 --------------
 
-web3j also provides filters for replaying block and transaction history.
+web3j also provides filters for replaying traceTransaction and transaction history.
 
 To replay a range of blocks from the blockchain::
 
    Subscription subscription = web3j.replayBlocksObservable(
            <startBlockNumber>, <endBlockNumber>, <fullTxObjects>)
-           .subscribe(block -> {
+           .subscribe(traceTransaction -> {
                ...
    });
 
@@ -89,7 +89,7 @@ You can also get web3j to replay all blocks up to the most current, and provide 
 
    Subscription subscription = web3j.catchUpToLatestBlockObservable(
            <startBlockNumber>, <fullTxObjects>, <onCompleteObservable>)
-           .subscribe(block -> {
+           .subscribe(traceTransaction -> {
                ...
    });
 
@@ -98,7 +98,7 @@ blocks being created::
 
    Subscription subscription = web3j.catchUpToLatestAndSubscribeToNewBlocksObservable(
            <startBlockNumber>, <fullTxObjects>)
-           .subscribe(block -> {
+           .subscribe(traceTransaction -> {
                ...
    });
 
@@ -137,7 +137,7 @@ on. Where the individual topics represent indexed parameters on the smart contra
            DefaultBlockParameterName.LATEST, <contract-address>)
                 [.addSingleTopic(...) | .addOptionalTopics(..., ...) | ...];
 
-This filter can then be created using a similar syntax to the block and transaction filters above::
+This filter can then be created using a similar syntax to the traceTransaction and transaction filters above::
 
    web3j.ethLogObservable(filter).subscribe(log -> {
        ...
@@ -170,9 +170,9 @@ itself composed of a number of separate JSON-RPC calls::
                        web3j.ethGetBlockByHash(blockHash, fullTransactionObjects).observable());
    }
 
-Here we first create an observable that provides notifications of the block hash of each newly
-created block. We then use *flatMap* to invoke a call to *ethGetBlockByHash* to obtain the full
-block details which is what is passed to the subscriber of the observable.
+Here we first create an observable that provides notifications of the traceTransaction hash of each newly
+created traceTransaction. We then use *flatMap* to invoke a call to *ethGetBlockByHash* to obtain the full
+traceTransaction details which is what is passed to the subscriber of the observable.
 
 
 Further examples

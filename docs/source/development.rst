@@ -9,14 +9,14 @@ client running, you can exclude their execution as per the below instructions.
 
 To run a full build (excluding integration tests):
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ ./gradlew check
 
 
 To run the integration tests:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ ./gradlew  -Pintegration-tests=true :integration-tests:test
 
@@ -31,13 +31,13 @@ All documentation (apart from the project README.md) resides under the
 
 To build a copy of the documentation, from the project root:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ cd docs
    $ make clean html
 
 Then browse the build documentation via:
 
-.. code-block:: bash
+.. code-traceTransaction:: bash
 
    $ open build/html/index.html
