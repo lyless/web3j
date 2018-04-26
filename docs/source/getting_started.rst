@@ -8,7 +8,7 @@ Maven
 
 Java 8:
 
-.. code-traceTransaction:: xml
+.. code-block:: xml
 
    <dependency>
      <groupId>org.web3j</groupId>
@@ -18,7 +18,7 @@ Java 8:
 
 Android:
 
-.. code-traceTransaction:: xml
+.. code-block:: xml
 
    <dependency>
      <groupId>org.web3j</groupId>
@@ -31,13 +31,13 @@ Gradle
 
 Java 8:
 
-.. code-traceTransaction:: groovy
+.. code-block:: groovy
 
    compile ('org.web3j:core:3.3.1')
 
 Android:
 
-.. code-traceTransaction:: groovy
+.. code-block:: groovy
 
    compile ('org.web3j:core:3.3.1-android')
 
@@ -48,19 +48,19 @@ Start a client
 Start up an Ethereum client if you don't already have one running, such as
 `Geth <https://github.com/ethereum/go-ethereum/wiki/geth>`_:
 
-.. code-traceTransaction:: bash
+.. code-block:: bash
 
    $ geth --rpcapi personal,db,eth,net,web3 --rpc --rinkeby
 
 Or `Parity <https://github.com/paritytech/parity>`_:
 
-.. code-traceTransaction:: bash
+.. code-block:: bash
 
    $ parity --chain testnet
 
 Or use `Infura <https://infura.io/>`_, which provides **free clients** running in the cloud:
 
-.. code-traceTransaction:: java
+.. code-block:: java
 
    Web3j web3 = Web3j.build(new HttpService("https://morden.infura.io/your-token"));
 
@@ -71,7 +71,7 @@ Instructions on obtaining Ether to transact on the network can be found in the
 
 When you no longer need a `Web3j` instance you need to call the `shutdown` method to close resources used by it.
 
-.. code-traceTransaction:: java
+.. code-block:: java
 
    web3.shutdown()
 
@@ -112,7 +112,7 @@ web3j also supports fast inter-process communication (IPC) via file sockets to c
 the same host as web3j. To connect simply use the relevant *IpcService* implementation instead of
 *HttpService* when you create your service:
 
-.. code-traceTransaction:: java
+.. code-block:: java
 
    // OS X/Linux/Unix:
    Web3j web3 = Web3j.build(new UnixIpcService("/path/to/socketfile"));
@@ -135,13 +135,13 @@ without leaving the JVM.
 
 To generate the wrapper code, compile your smart contract:
 
-.. code-traceTransaction:: bash
+.. code-block:: bash
 
    $ solc <contract>.sol --bin --abi --optimize -o <output-dir>/
 
 Then generate the wrapper code using web3j's :doc:`command_line`:
 
-.. code-traceTransaction:: bash
+.. code-block:: bash
 
    web3j solidity generate /path/to/<smart-contract>.bin /path/to/<smart-contract>.abi -o /path/to/src/main/java -p com.your.organisation.name
 
@@ -181,7 +181,7 @@ of events taking place on the blockchain.
 
 To receive all new blocks as they are added to the blockchain::
 
-   Subscription subscription = web3j.blockObservable(false).subscribe(traceTransaction -> {
+   Subscription subscription = web3j.blockObservable(false).subscribe(block -> {
        ...
    });
 
@@ -192,7 +192,7 @@ To receive all new transactions as they are added to the blockchain::
    });
 
 To receive all pending transactions as they are submitted to the network (i.e. before they have
-been grouped into a traceTransaction together)::
+been grouped into a block together)::
 
    Subscription subscription = web3j.pendingTransactionObservable().subscribe(tx -> {
        ...
@@ -203,11 +203,11 @@ blocks being created::
 
    Subscription subscription = catchUpToLatestAndSubscribeToNewBlocksObservable(
            <startBlockNumber>, <fullTxObjects>)
-           .subscribe(traceTransaction -> {
+           .subscribe(block -> {
                ...
    });
 
-There are a number of other transaction and traceTransaction replay Observables described in :doc:`filters`.
+There are a number of other transaction and block replay Observables described in :doc:`filters`.
 
 Topic filters are also supported::
 

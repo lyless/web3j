@@ -17,14 +17,14 @@ the **Downloads** section, or for OS X users via
 `Homebrew <https://github.com/web3j/homebrew-web3j>`_, or for Arch linux users via the
 `AUR <https://aur.archlinux.org/packages/web3j/>`_.
 
-.. code-traceTransaction:: bash
+.. code-block:: bash
 
    brew tap web3j/web3j
    brew install web3j
 
 To run via the zipfile, simply extract the zipfile and run the binary:
 
-.. code-traceTransaction:: bash
+.. code-block:: bash
 
    $ unzip web3j-<version>.zip
       creating: web3j-3.0.0/lib/
@@ -51,19 +51,19 @@ Wallet tools
 
 To generate a new Ethereum wallet:
 
-.. code-traceTransaction:: bash
+.. code-block:: bash
 
    $ web3j wallet create
 
 To update the password for an existing wallet:
 
-.. code-traceTransaction:: bash
+.. code-block:: bash
 
    $ web3j wallet update <walletfile>
 
 To send Ether to another address:
 
-.. code-traceTransaction:: bash
+.. code-block:: bash
 
    $ web3j wallet send <walletfile> 0x<address>|<ensName>
 
@@ -72,7 +72,7 @@ transaction takes place. See the below for a full example
 
 The following example demonstrates using web3j to send Ether to another wallet.
 
-.. code-traceTransaction:: bash
+.. code-block:: bash
 
    $ ./web3j-<version>/bin/web3j wallet send <walletfile> 0x<address>|<ensName>
 
@@ -97,7 +97,7 @@ The following example demonstrates using web3j to send Ether to another wallet.
 
    Funds have been successfully transferred from 0x19e03255f667bdfd50a32722df860b1eeaf4d635 to 0x9c98e381edc5fe1ac514935f3cc3edaa764cf004
    Transaction hash: 0xb00afc5c2bb92a76d03e17bd3a0175b80609e877cb124c02d19000d529390530
-   Mined traceTransaction number: 1849039
+   Mined block number: 1849039
 
 
 Solidity smart contract wrapper generator
