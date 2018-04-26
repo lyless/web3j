@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="abi/src/main/java"/>
+	<classpathentry kind="src" path="abi/src/test/java"/>
+	<classpathentry kind="src" path="codegen/src/main/java"/>
+	<classpathentry kind="src" path="codegen/src/test/java"/>
+	<classpathentry kind="src" path="codegen/src/test/resources"/>
+	<classpathentry kind="src" path="console/src/main/java"/>
+	<classpathentry kind="src" path="console/src/test/java"/>
+	<classpathentry kind="src" path="console/src/test/resources"/>
+	<classpathentry kind="src" path="core/src/main/java"/>
+	<classpathentry kind="src" path="core/src/main/resources"/>
+	<classpathentry kind="src" path="core/src/test/java"/>
+	<classpathentry kind="src" path="core/src/test/resources"/>
+	<classpathentry kind="src" path="crypto/src/main/java"/>
+	<classpathentry kind="src" path="crypto/src/main/resources"/>
+	<classpathentry kind="src" path="crypto/src/test/java"/>
+	<classpathentry kind="src" path="crypto/src/test/resources"/>
+	<classpathentry kind="src" path="geth/src/main/java"/>
+	<classpathentry kind="src" path="geth/src/test/java"/>
+	<classpathentry kind="src" path="infura/src/main/java"/>
+	<classpathentry kind="src" path="infura/src/test/java"/>
+	<classpathentry kind="src" path="integration-tests/src/test/java"/>
+	<classpathentry kind="src" path="integration-tests/src/test/resources"/>
+	<classpathentry kind="src" path="parity/src/main/java"/>
+	<classpathentry kind="src" path="parity/src/test/java"/>
+	<classpathentry kind="src" path="rlp/src/main/java"/>
+	<classpathentry kind="src" path="rlp/src/test/java"/>
+	<classpathentry kind="src" path="tuples/src/main/java"/>
+	<classpathentry kind="src" path="utils/src/main/java"/>
+	<classpathentry kind="src" path="utils/src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="/main/src"/>
-	<classpathentry kind="src" path="/main/abi/src/main/java"/>
-	<classpathentry kind="src" path="/main/abi/src/test/java"/>
-	<classpathentry kind="src" path="/main/codegen/src/main/java"/>
-	<classpathentry kind="src" path="/main/codegen/src/test/java"/>
-	<classpathentry kind="src" path="/main/codegen/src/test/resources"/>
-	<classpathentry kind="src" path="/main/console/src/main/java"/>
-	<classpathentry kind="src" path="/main/core/src/main/java"/>
-	<classpathentry kind="src" path="/main/core/src/main/resources"/>
-	<classpathentry kind="src" path="/main/console/src/test/resources"/>
-	<classpathentry kind="src" path="/main/console/src/test/java"/>
-	<classpathentry kind="src" path="/main/core/src/test/java"/>
-	<classpathentry kind="src" path="/main/core/src/test/resources"/>
-	<classpathentry kind="src" path="/main/crypto/src/main/java"/>
-	<classpathentry kind="src" path="/main/crypto/src/main/resources"/>
-	<classpathentry kind="src" path="/main/crypto/src/test/java"/>
-	<classpathentry kind="src" path="/main/crypto/src/test/resources"/>
-	<classpathentry kind="src" path="/main/geth/src/main/java"/>
-	<classpathentry kind="src" path="/main/geth/src/test/java"/>
-	<classpathentry kind="src" path="/main/infura/src/main/java"/>
-	<classpathentry kind="src" path="/main/infura/src/test/java"/>
-	<classpathentry kind="src" path="/main/integration-tests/src/test/java"/>
-	<classpathentry kind="src" path="/main/integration-tests/src/test/resources"/>
-	<classpathentry kind="src" path="/main/parity/src/main/java"/>
-	<classpathentry kind="src" path="/main/parity/src/test/java"/>
-	<classpathentry kind="src" path="/main/rlp/src/main/java"/>
-	<classpathentry kind="src" path="/main/rlp/src/test/java"/>
-	<classpathentry kind="src" path="/main/tuples/src/main/java"/>
-	<classpathentry kind="src" path="/main/utils/src/main/java"/>
-	<classpathentry kind="src" path="/main/utils/src/test/java"/>
 	<classpathentry kind="lib" path="lib/asm-5.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/asm-analysis-5.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/asm-commons-5.0.3.jar"/>
@@ -63,5 +62,5 @@
 	<classpathentry kind="lib" path="lib/rxjava-1.2.4.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-nop-1.7.25.jar"/>
-	<classpathentry kind="output" path="out/production/main"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

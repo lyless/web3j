@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<testFolder url="file://$MODULE_DIR$/abi/src/test/java"/>
+		<testFolder url="file://$MODULE_DIR$/codegen/src/test/java"/>
+		<testFolder url="file://$MODULE_DIR$/console/src/test/java"/>
+		<testFolder url="file://$MODULE_DIR$/infura/src/test/java"/>
+		<testFolder url="file://$MODULE_DIR$/integration-tests/src/test/java"/>
+		<testFolder url="file://$MODULE_DIR$/rlp/src/test/java"/>
+		<testFolder url="file://$MODULE_DIR$/utils/src/test/java"/>
+	</contentEntry>
+	<lib name="asm-5.0.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/asm-5.0.3.jar!/"/>
+	</lib>
+	<lib name="asm-analysis-5.0.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/asm-analysis-5.0.3.jar!/"/>
+	</lib>
+	<lib name="asm-commons-5.0.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/asm-commons-5.0.3.jar!/"/>
+	</lib>
+	<lib name="asm-tree-5.0.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/asm-tree-5.0.3.jar!/"/>
+	</lib>
+	<lib name="asm-util-5.0.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/asm-util-5.0.3.jar!/"/>
+	</lib>
+	<lib name="bcprov-jdk15on-1.54.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/bcprov-jdk15on-1.54.jar!/"/>
+	</lib>
+	<lib name="equalsverifier-2.1.7.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/equalsverifier-2.1.7.jar!/"/>
+	</lib>
+	<lib name="hamcrest-core-1.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/hamcrest-core-1.3.jar!/"/>
+	</lib>
+	<lib name="jackson-annotations-2.8.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jackson-annotations-2.8.0.jar!/"/>
+	</lib>
+	<lib name="jackson-core-2.8.5.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jackson-core-2.8.5.jar!/"/>
+	</lib>
+	<lib name="jackson-databind-2.8.5.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jackson-databind-2.8.5.jar!/"/>
+	</lib>
+	<lib name="javapoet-1.7.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/javapoet-1.7.0.jar!/"/>
+	</lib>
+	<lib name="jffi-1.2.14-native.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jffi-1.2.14-native.jar!/"/>
+	</lib>
+	<lib name="jffi-1.2.14.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jffi-1.2.14.jar!/"/>
+	</lib>
+	<lib name="jnr-constants-0.9.6.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jnr-constants-0.9.6.jar!/"/>
+	</lib>
+	<lib name="jnr-enxio-0.14.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jnr-enxio-0.14.jar!/"/>
+	</lib>
+	<lib name="jnr-ffi-2.1.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jnr-ffi-2.1.2.jar!/"/>
+	</lib>
+	<lib name="jnr-posix-3.0.33.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jnr-posix-3.0.33.jar!/"/>
+	</lib>
+	<lib name="jnr-unixsocket-0.15.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jnr-unixsocket-0.15.jar!/"/>
+	</lib>
+	<lib name="jnr-x86asm-1.0.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/jnr-x86asm-1.0.2.jar!/"/>
+	</lib>
+	<lib name="junit-4.11.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/junit-4.11.jar!/"/>
+	</lib>
+	<lib name="junit-benchmarks-0.7.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/junit-benchmarks-0.7.2.jar!/"/>
+	</lib>
+	<lib name="logback-classic-1.2.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/logback-classic-1.2.3.jar!/"/>
+	</lib>
+	<lib name="logback-core-1.2.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/logback-core-1.2.3.jar!/"/>
+	</lib>
+	<lib name="logging-interceptor-3.8.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/logging-interceptor-3.8.1.jar!/"/>
+	</lib>
+	<lib name="mockito-core-1.10.19.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/lib/mockito-core-1.10.19.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/web3j/lib/mockito-core-1.10.19.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/mockito-core-1.10.19.jar!/"/>
+	</lib>
+	<lib name="objenesis-2.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/objenesis-2.1.jar!/"/>
+	</lib>
+	<lib name="okhttp-3.8.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/okhttp-3.8.1.jar!/"/>
+	</lib>
+	<lib name="okio-1.13.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/okio-1.13.0.jar!/"/>
+	</lib>
+	<lib name="rxjava-1.2.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/rxjava-1.2.4.jar!/"/>
+	</lib>
+	<lib name="slf4j-api-1.7.25.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/slf4j-api-1.7.25.jar!/"/>
+	</lib>
+	<lib name="slf4j-nop-1.7.25.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/web3j/lib/slf4j-nop-1.7.25.jar!/"/>
+	</lib>
+</component>
