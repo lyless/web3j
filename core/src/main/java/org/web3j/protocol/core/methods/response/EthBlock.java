@@ -18,7 +18,7 @@ import org.web3j.protocol.core.Response;
 import org.web3j.utils.Numeric;
 
 /**
- * TraceTransaction object returned by:
+ * Block object returned by:
  * <ul>
  * <li>eth_getBlockByHash</li>
  * <li>eth_getBlockByNumber</li>
