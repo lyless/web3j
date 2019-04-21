@@ -264,4 +264,5 @@ dependencies {
 jar {
   dependsOn configurations.childJars
   from { configurations.childJars.collect { zipTree(it) } }
+  exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
 }
