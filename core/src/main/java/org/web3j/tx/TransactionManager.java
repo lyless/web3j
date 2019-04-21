@@ -1,5 +1,7 @@
 package org.web3j.tx;
 
+import static org.web3j.protocol.core.JsonRpc2_0Web3j.*;
+
 import java.io.IOException;
 import java.math.BigInteger;
 
@@ -9,8 +11,6 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.exceptions.TransactionException;
 import org.web3j.tx.response.PollingTransactionReceiptProcessor;
 import org.web3j.tx.response.TransactionReceiptProcessor;
-
-import static org.web3j.protocol.core.JsonRpc2_0Web3j.DEFAULT_BLOCK_TIME;
 
 /**
  * Transaction manager abstraction for executing transactions with Ethereum client via
@@ -23,6 +23,8 @@ public abstract class TransactionManager {
 
     private final TransactionReceiptProcessor transactionReceiptProcessor;
     private final String                      fromAddress;
+
+    public BigInteger nonce;
 
     protected TransactionManager(
             TransactionReceiptProcessor transactionReceiptProcessor, String fromAddress) {
@@ -87,6 +89,14 @@ public abstract class TransactionManager {
         String transactionHash = transactionResponse.getTransactionHash();
 
         return transactionReceiptProcessor.waitForTransactionReceipt(transactionHash);
+    }
+
+    public void setNonce(BigInteger nonce){
+        this.nonce = nonce;
+    }
+
+    public void nonceIncreatement(){
+        this.nonce = this.nonce.add(BigInteger.ONE);
     }
 
 

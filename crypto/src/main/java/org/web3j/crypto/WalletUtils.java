@@ -102,6 +102,19 @@ public class WalletUtils {
         return new Bip39Wallet(walletFile, mnemonic);
     }
 
+    public static String getRandomMnemonic() {
+        byte[] initialEntropy = new byte[16];
+        secureRandom.nextBytes(initialEntropy);
+        String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
+        return mnemonic;
+    }
+
+    public static ECKeyPair generatePrivateKey(String mnemonic, String password){
+        byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+        ECKeyPair privateKey = ECKeyPair.create(sha256(seed));
+        return privateKey;
+    }
+
     public static Credentials loadCredentials(String password, String source)
             throws IOException, CipherException {
         return loadCredentials(password, new File(source));

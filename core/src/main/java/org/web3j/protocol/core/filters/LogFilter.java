@@ -19,9 +19,9 @@ public class LogFilter extends Filter<Log> {
     private final org.web3j.protocol.core.methods.request.EthFilter ethFilter;
 
     public LogFilter(
-            Web3j web3j, Callback<Log> callback,
+            Web3j web3j, Callback<Log> callback, Callback<Throwable> errorCallBack,
             org.web3j.protocol.core.methods.request.EthFilter ethFilter) {
-        super(web3j, callback);
+        super(web3j, callback, errorCallBack);
         this.ethFilter = ethFilter;
     }
 

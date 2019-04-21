@@ -7,6 +7,7 @@ buildscript {
     ext.okhttpVersion = '3.8.1'
     ext.rxjavaVersion = '1.2.4'
     ext.slf4jVersion = '1.7.25'
+    ext.guavaVersion = '19.0'
 
     // test dependencies
     ext.equalsverifierVersion = '2.1.7'
@@ -251,4 +252,16 @@ task jacocoRootTestReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
                     ])
         })
     }
+}
+configurations {
+  childJars
+}
+dependencies {
+  subprojects.each {
+    childJars project(it.path)
+  }
+}
+jar {
+  dependsOn configurations.childJars
+  from { configurations.childJars.collect { zipTree(it) } }
 }

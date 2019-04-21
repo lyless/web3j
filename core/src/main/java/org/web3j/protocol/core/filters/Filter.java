@@ -30,14 +30,16 @@ public abstract class Filter<T> {
 
     final Web3j web3j;
     final Callback<T> callback;
+    final Callback<Throwable> errorCallBack;
 
     private volatile BigInteger filterId;
 
     private ScheduledFuture<?> schedule;
 
-    public Filter(Web3j web3j, Callback<T> callback) {
+    public Filter(Web3j web3j, Callback<T> callback, Callback<Throwable> errorCallBack) {
         this.web3j = web3j;
         this.callback = callback;
+        this.errorCallBack = errorCallBack;
     }
 
     public void run(ScheduledExecutorService scheduledExecutorService, long blockTime) {
@@ -148,12 +150,17 @@ public abstract class Filter<T> {
     protected abstract Optional<Request<?, EthLog>> getFilterLogs(BigInteger filterId);
 
     void throwException(Response.Error error) {
-        throw new FilterException("Invalid request: "
-                + (error == null ? "Unknown Error" : error.getMessage()));
+        FilterException e = new FilterException("Invalid request: "
+                                                       + (error == null ? "Unknown Error" : error.getMessage()));
+        errorCallBack.onEvent(e);
+        throw e;
+
     }
 
     void throwException(Throwable cause) {
-        throw new FilterException("Error sending request", cause);
+        FilterException e = new FilterException("Error sending request", cause);
+        errorCallBack.onEvent(e);
+        throw e;
     }
 }
 

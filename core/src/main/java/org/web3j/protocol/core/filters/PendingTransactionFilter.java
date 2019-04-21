@@ -15,8 +15,8 @@ import org.web3j.protocol.core.methods.response.EthLog;
  */
 public class PendingTransactionFilter extends Filter<String> {
 
-    public PendingTransactionFilter(Web3j web3j, Callback<String> callback) {
-        super(web3j, callback);
+    public PendingTransactionFilter(Web3j web3j, Callback<String> callback, Callback<Throwable> errorCallBack) {
+        super(web3j, callback, errorCallBack);
     }
 
     @Override

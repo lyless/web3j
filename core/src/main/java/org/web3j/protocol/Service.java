@@ -6,6 +6,8 @@ import java.util.concurrent.CompletableFuture;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.Response;
 import org.web3j.utils.Async;
@@ -16,6 +18,7 @@ import org.web3j.utils.Async;
 public abstract class Service implements Web3jService {
 
     protected final ObjectMapper objectMapper;
+    Logger logger = LoggerFactory.getLogger(Service.class);
 
     public Service(boolean includeRawResponses) {
         objectMapper = ObjectMapperFactory.getObjectMapper(includeRawResponses);
@@ -27,6 +30,7 @@ public abstract class Service implements Web3jService {
     public <T extends Response> T send(
             Request request, Class<T> responseType) throws IOException {
         String payload = objectMapper.writeValueAsString(request);
+        logger.info("request payload : {}.", payload);
 
         try (InputStream result = performIO(payload)) {
             if (result != null) {

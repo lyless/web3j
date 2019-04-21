@@ -1,5 +1,7 @@
 package org.web3j.utils;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -46,6 +48,21 @@ public class Async {
     public static ScheduledExecutorService defaultExecutorService() {
         ScheduledExecutorService scheduledExecutorService =
                 Executors.newScheduledThreadPool(getCpuCount());
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown(scheduledExecutorService)));
+
+        return scheduledExecutorService;
+    }
+    /**
+     * Provide a new ScheduledExecutorService instance.
+     *
+     * <p>A shutdown hook is created to terminate the thread pool on application termination.
+     *
+     * @return new ScheduledExecutorService
+     */
+    public static ScheduledExecutorService namedExecutorService(String threadName) {
+        ScheduledExecutorService scheduledExecutorService =
+                Executors.newScheduledThreadPool(getCpuCount(), new ThreadFactoryBuilder().setNameFormat(threadName).build());
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown(scheduledExecutorService)));
 

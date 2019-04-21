@@ -42,7 +42,7 @@ public class JsonRpc2_0Rx {
     public Observable<String> ethBlockHashObservable(long pollingInterval) {
         return Observable.create(subscriber -> {
             BlockFilter blockFilter = new BlockFilter(
-                    web3j, subscriber::onNext);
+                    web3j, subscriber::onNext, subscriber::onError);
             run(blockFilter, subscriber, pollingInterval);
         });
     }
@@ -50,7 +50,7 @@ public class JsonRpc2_0Rx {
     public Observable<String> ethPendingTransactionHashObservable(long pollingInterval) {
         return Observable.create(subscriber -> {
             PendingTransactionFilter pendingTransactionFilter = new PendingTransactionFilter(
-                    web3j, subscriber::onNext);
+                    web3j, subscriber::onNext, subscriber::onError);
 
             run(pendingTransactionFilter, subscriber, pollingInterval);
         });
@@ -60,7 +60,7 @@ public class JsonRpc2_0Rx {
             org.web3j.protocol.core.methods.request.EthFilter ethFilter, long pollingInterval) {
         return Observable.create((Subscriber<? super Log> subscriber) -> {
             LogFilter logFilter = new LogFilter(
-                    web3j, subscriber::onNext, ethFilter);
+                    web3j, subscriber::onNext,subscriber::onError, ethFilter);
 
             run(logFilter, subscriber, pollingInterval);
         });

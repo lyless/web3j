@@ -23,6 +23,8 @@ public abstract class ManagedTransaction {
 
     protected EnsResolver ensResolver;
 
+    public BigInteger nonce;
+
     protected ManagedTransaction(Web3j web3j, TransactionManager transactionManager) {
         this.transactionManager = transactionManager;
         this.web3j = web3j;
@@ -87,6 +89,7 @@ public abstract class ManagedTransaction {
             String to, String data, BigInteger value, BigInteger gasPrice, BigInteger gasLimit)
             throws IOException, TransactionException {
 
+        transactionManager.setNonce(nonce);
         return transactionManager.make(
                 gasPrice, gasLimit, to, data, value);
     }
@@ -96,5 +99,13 @@ public abstract class ManagedTransaction {
 
         return transactionManager.executeTransaction(
                 txHash);
+    }
+
+    public void setNonce(BigInteger nonce){
+        this.nonce = nonce;
+    }
+
+    public void nonceIncreatement(){
+        this.nonce = this.nonce.add(BigInteger.ONE);
     }
 }

@@ -94,7 +94,11 @@ public class RawTransactionManager extends TransactionManager {
     @Override
     public String make(BigInteger gasPrice, BigInteger gasLimit, String to, String data,
                        BigInteger value) throws IOException {
-        BigInteger nonce = getNonce();
+        BigInteger nonce =super.nonce;
+        if (nonce ==null){
+            nonce = getNonce();
+        }
+//        BigInteger nonce = getNonce();
         RawTransaction rawTransaction = RawTransaction.createTransaction(
                 nonce,
                 gasPrice,

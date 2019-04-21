@@ -1,20 +1,19 @@
 package org.web3j.protocol.core.methods.response;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.List;
+
+import org.web3j.protocol.ObjectMapperFactory;
+import org.web3j.protocol.core.Response;
+import org.web3j.utils.Numeric;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.web3j.protocol.ObjectMapperFactory;
-import org.web3j.protocol.core.Response;
-import org.web3j.utils.Numeric;
-
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 
 public class EthTraceTransaction extends Response<EthTraceTransaction.TraceTransaction> {
@@ -30,6 +29,7 @@ public class EthTraceTransaction extends Response<EthTraceTransaction.TraceTrans
     }
 
     public static class Call{
+    	private List<Call> calls;
         private String from;
         private String to;
         private String input;
@@ -39,7 +39,8 @@ public class EthTraceTransaction extends Response<EthTraceTransaction.TraceTrans
         public Call() {
         }
 
-        public Call(String from, String to, String input, String type, String value) {
+        public Call(List<Call> calls,String from, String to, String input, String type, String value) {
+        	this.calls = calls;
             this.from = from;
             this.to = to;
             this.input = input;
@@ -90,7 +91,15 @@ public class EthTraceTransaction extends Response<EthTraceTransaction.TraceTrans
             this.value = value;
         }
 
-        @Override
+        public List<Call> getCalls() {
+			return calls;
+		}
+
+		public void setCalls(List<Call> calls) {
+			this.calls = calls;
+		}
+
+		@Override
         public String toString() {
             final StringBuilder sb = new StringBuilder("Call{");
             sb.append("from='").append(from).append('\'');
