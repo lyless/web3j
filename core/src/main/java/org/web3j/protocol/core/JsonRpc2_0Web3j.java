@@ -1,72 +1,22 @@
 package org.web3j.protocol.core;
 
-import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ScheduledExecutorService;
-
+import io.reactivex.Flowable;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jService;
 import org.web3j.protocol.core.methods.request.ShhFilter;
 import org.web3j.protocol.core.methods.request.ShhPost;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.DbGetHex;
-import org.web3j.protocol.core.methods.response.DbGetString;
-import org.web3j.protocol.core.methods.response.DbPutHex;
-import org.web3j.protocol.core.methods.response.DbPutString;
-import org.web3j.protocol.core.methods.response.EthAccounts;
-import org.web3j.protocol.core.methods.response.EthBlock;
-import org.web3j.protocol.core.methods.response.EthBlockNumber;
-import org.web3j.protocol.core.methods.response.EthCoinbase;
-import org.web3j.protocol.core.methods.response.EthCompileLLL;
-import org.web3j.protocol.core.methods.response.EthCompileSerpent;
-import org.web3j.protocol.core.methods.response.EthCompileSolidity;
-import org.web3j.protocol.core.methods.response.EthEstimateGas;
-import org.web3j.protocol.core.methods.response.EthFilter;
-import org.web3j.protocol.core.methods.response.EthGasPrice;
-import org.web3j.protocol.core.methods.response.EthGetBalance;
-import org.web3j.protocol.core.methods.response.EthGetBlockTransactionCountByHash;
-import org.web3j.protocol.core.methods.response.EthGetBlockTransactionCountByNumber;
-import org.web3j.protocol.core.methods.response.EthGetCode;
-import org.web3j.protocol.core.methods.response.EthGetCompilers;
-import org.web3j.protocol.core.methods.response.EthGetStorageAt;
-import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
-import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
-import org.web3j.protocol.core.methods.response.EthGetUncleCountByBlockHash;
-import org.web3j.protocol.core.methods.response.EthGetUncleCountByBlockNumber;
-import org.web3j.protocol.core.methods.response.EthGetWork;
-import org.web3j.protocol.core.methods.response.EthHashrate;
-import org.web3j.protocol.core.methods.response.EthLog;
-import org.web3j.protocol.core.methods.response.EthMining;
-import org.web3j.protocol.core.methods.response.EthProtocolVersion;
-import org.web3j.protocol.core.methods.response.EthSign;
-import org.web3j.protocol.core.methods.response.EthSubmitHashrate;
-import org.web3j.protocol.core.methods.response.EthSubmitWork;
-import org.web3j.protocol.core.methods.response.EthSyncing;
-import org.web3j.protocol.core.methods.response.EthTraceTransaction;
-import org.web3j.protocol.core.methods.response.EthTransaction;
-import org.web3j.protocol.core.methods.response.EthUninstallFilter;
-import org.web3j.protocol.core.methods.response.Log;
-import org.web3j.protocol.core.methods.response.NetListening;
-import org.web3j.protocol.core.methods.response.NetPeerCount;
-import org.web3j.protocol.core.methods.response.NetVersion;
-import org.web3j.protocol.core.methods.response.ShhAddToGroup;
-import org.web3j.protocol.core.methods.response.ShhHasIdentity;
-import org.web3j.protocol.core.methods.response.ShhMessages;
-import org.web3j.protocol.core.methods.response.ShhNewFilter;
-import org.web3j.protocol.core.methods.response.ShhNewGroup;
-import org.web3j.protocol.core.methods.response.ShhNewIdentity;
-import org.web3j.protocol.core.methods.response.ShhUninstallFilter;
-import org.web3j.protocol.core.methods.response.ShhVersion;
-import org.web3j.protocol.core.methods.response.Web3ClientVersion;
-import org.web3j.protocol.core.methods.response.Web3Sha3;
+import org.web3j.protocol.core.methods.response.*;
 import org.web3j.protocol.rx.JsonRpc2_0Rx;
+import org.web3j.protocol.websocket.events.LogNotification;
+import org.web3j.protocol.websocket.events.NewHeadsNotification;
 import org.web3j.utils.Async;
 import org.web3j.utils.Numeric;
 
-import rx.Observable;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * JSON-RPC 2.0 factory implementation.
@@ -705,92 +655,133 @@ public class JsonRpc2_0Web3j implements Web3j {
     }
 
     @Override
-    public Observable<String> ethBlockHashObservable() {
-        return web3jRx.ethBlockHashObservable(blockTime);
+    public Flowable<NewHeadsNotification> newHeadsNotifications() {
+        return web3jService.subscribe(
+                new Request<>(
+                        "eth_subscribe",
+                        Collections.singletonList("newHeads"),
+                        web3jService,
+                        EthSubscribe.class),
+                "eth_unsubscribe",
+                NewHeadsNotification.class
+        );
     }
 
     @Override
-    public Observable<String> ethPendingTransactionHashObservable() {
-        return web3jRx.ethPendingTransactionHashObservable(blockTime);
+    public Flowable<LogNotification> logsNotifications(
+            List<String> addresses, List<String> topics) {
+
+        Map<String, Object> params = createLogsParams(addresses, topics);
+
+        return web3jService.subscribe(
+                new Request<>(
+                        "eth_subscribe",
+                        Arrays.asList("logs", params),
+                        web3jService,
+                        EthSubscribe.class),
+                "eth_unsubscribe",
+                LogNotification.class
+        );
+    }
+
+    private Map<String, Object> createLogsParams(List<String> addresses, List<String> topics) {
+        Map<String, Object> params = new HashMap<>();
+        if (!addresses.isEmpty()) {
+            params.put("address", addresses);
+        }
+        if (!topics.isEmpty()) {
+            params.put("topics", topics);
+        }
+        return params;
     }
 
     @Override
-    public Observable<Log> ethLogObservable(
+    public Flowable<String> ethBlockHashFlowable() {
+        return web3jRx.ethBlockHashFlowable(blockTime);
+    }
+
+    @Override
+    public Flowable<String> ethPendingTransactionHashFlowable() {
+        return web3jRx.ethPendingTransactionHashFlowable(blockTime);
+    }
+
+    @Override
+    public Flowable<Log> ethLogFlowable(
             org.web3j.protocol.core.methods.request.EthFilter ethFilter) {
-        return web3jRx.ethLogObservable(ethFilter, blockTime);
+        return web3jRx.ethLogFlowable(ethFilter, blockTime);
     }
 
     @Override
-    public Observable<org.web3j.protocol.core.methods.response.Transaction>
-            transactionObservable() {
-        return web3jRx.transactionObservable(blockTime);
+    public Flowable<org.web3j.protocol.core.methods.response.Transaction>
+            transactionFlowable() {
+        return web3jRx.transactionFlowable(blockTime);
     }
 
     @Override
-    public Observable<org.web3j.protocol.core.methods.response.Transaction>
-            pendingTransactionObservable() {
-        return web3jRx.pendingTransactionObservable(blockTime);
+    public Flowable<org.web3j.protocol.core.methods.response.Transaction>
+            pendingTransactionFlowable() {
+        return web3jRx.pendingTransactionFlowable(blockTime);
     }
 
     @Override
-    public Observable<EthBlock> blockObservable(boolean fullTransactionObjects) {
-        return web3jRx.blockObservable(fullTransactionObjects, blockTime);
+    public Flowable<EthBlock> blockFlowable(boolean fullTransactionObjects) {
+        return web3jRx.blockFlowable(fullTransactionObjects, blockTime);
     }
 
     @Override
-    public Observable<EthBlock> replayBlocksObservable(
+    public Flowable<EthBlock> replayPastBlocksFlowable(
             DefaultBlockParameter startBlock, DefaultBlockParameter endBlock,
             boolean fullTransactionObjects) {
-        return web3jRx.replayBlocksObservable(startBlock, endBlock, fullTransactionObjects);
+        return web3jRx.replayBlocksFlowable(startBlock, endBlock, fullTransactionObjects);
     }
 
     @Override
-    public Observable<EthBlock> replayBlocksObservable(
-            DefaultBlockParameter startBlock, DefaultBlockParameter endBlock,
-            boolean fullTransactionObjects, boolean ascending) {
-        return web3jRx.replayBlocksObservable(startBlock, endBlock,
+    public Flowable<EthBlock> replayPastBlocksFlowable(DefaultBlockParameter startBlock,
+                                                      DefaultBlockParameter endBlock,
+                                                      boolean fullTransactionObjects,
+                                                      boolean ascending) {
+        return web3jRx.replayBlocksFlowable(startBlock, endBlock,
                 fullTransactionObjects, ascending);
     }
 
     @Override
-    public Observable<org.web3j.protocol.core.methods.response.Transaction>
-            replayTransactionsObservable(
-            DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
-        return web3jRx.replayTransactionsObservable(startBlock, endBlock);
-    }
-
-    @Override
-    public Observable<EthBlock> catchUpToLatestBlockObservable(
+    public Flowable<EthBlock> replayPastBlocksFlowable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects,
-            Observable<EthBlock> onCompleteObservable) {
-        return web3jRx.catchUpToLatestBlockObservable(
-                startBlock, fullTransactionObjects, onCompleteObservable);
+            Flowable<EthBlock> onCompleteFlowable) {
+        return web3jRx.replayPastBlocksFlowable(
+                startBlock, fullTransactionObjects, onCompleteFlowable);
     }
 
     @Override
-    public Observable<EthBlock> catchUpToLatestBlockObservable(
+    public Flowable<EthBlock> replayPastBlocksFlowable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects) {
-        return web3jRx.catchUpToLatestBlockObservable(startBlock, fullTransactionObjects);
+        return web3jRx.replayPastBlocksFlowable(startBlock, fullTransactionObjects);
     }
 
     @Override
-    public Observable<org.web3j.protocol.core.methods.response.Transaction>
-            catchUpToLatestTransactionObservable(DefaultBlockParameter startBlock) {
-        return web3jRx.catchUpToLatestTransactionObservable(startBlock);
+    public Flowable<org.web3j.protocol.core.methods.response.Transaction>
+            replayPastTransactionsFlowable(DefaultBlockParameter startBlock,
+                                          DefaultBlockParameter endBlock) {
+        return web3jRx.replayTransactionsFlowable(startBlock, endBlock);
     }
 
     @Override
-    public Observable<EthBlock> catchUpToLatestAndSubscribeToNewBlocksObservable(
+    public Flowable<org.web3j.protocol.core.methods.response.Transaction>
+            replayPastTransactionsFlowable(DefaultBlockParameter startBlock) {
+        return web3jRx.replayPastTransactionsFlowable(startBlock);
+    }
+
+    @Override
+    public Flowable<EthBlock> replayPastAndFutureBlocksFlowable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects) {
-        return web3jRx.catchUpToLatestAndSubscribeToNewBlocksObservable(
+        return web3jRx.replayPastAndFutureBlocksFlowable(
                 startBlock, fullTransactionObjects, blockTime);
     }
 
     @Override
-    public Observable<org.web3j.protocol.core.methods.response.Transaction>
-            catchUpToLatestAndSubscribeToNewTransactionsObservable(
-            DefaultBlockParameter startBlock) {
-        return web3jRx.catchUpToLatestAndSubscribeToNewTransactionsObservable(
+    public Flowable<org.web3j.protocol.core.methods.response.Transaction>
+            replayPastAndFutureTransactionsFlowable(DefaultBlockParameter startBlock) {
+        return web3jRx.replayPastAndFutureTransactionsFlowable(
                 startBlock, blockTime);
     }
 
@@ -799,6 +790,15 @@ public class JsonRpc2_0Web3j implements Web3j {
         if (scheduledExecutorService != null) {
             scheduledExecutorService.shutdown();
         }
+        try {
+            if(web3jService != null){
+                web3jService.close();
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to close web3j service", e);
+        }
+
 
     }
 }

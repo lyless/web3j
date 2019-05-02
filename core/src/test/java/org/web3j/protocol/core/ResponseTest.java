@@ -12,7 +12,6 @@ import java.util.Optional;
 import org.junit.Test;
 
 import org.web3j.protocol.ResponseTester;
-import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.response.AbiDefinition;
 import org.web3j.protocol.core.methods.response.DbGetHex;
 import org.web3j.protocol.core.methods.response.DbGetString;
@@ -71,6 +70,7 @@ import org.web3j.protocol.core.methods.response.Web3Sha3;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -505,6 +505,38 @@ public class ResponseTest extends ResponseTester {
 
         EthCall ethCall = deserialiseResponse(EthCall.class);
         assertThat(ethCall.getValue(), is("0x"));
+        assertFalse(ethCall.reverts());
+        assertNull(ethCall.getRevertReason());
+    }
+
+    @Test
+    public void testEthCallReverted() {
+        buildResponse(
+                "{\n"
+                        + "  \"id\":1,\n"
+                        + "  \"jsonrpc\": \"2.0\",\n"
+                        + "  \"result\": \"0x08c379a0"
+                           + "0000000000000000000000000000000000000000000000000000000000000020"
+                           + "00000000000000000000000000000000000000000000000000000000000000ee"
+                           + "536f6c696469747920757365732073746174652d726576657274696e67206578"
+                           + "63657074696f6e7320746f2068616e646c65206572726f72732e205468652072"
+                           + "6571756972652066756e6374696f6e2073686f756c6420626520757365642074"
+                           + "6f20656e737572652076616c696420636f6e646974696f6e732c207375636820"
+                           + "617320696e707574732c206f7220636f6e747261637420737461746520766172"
+                           + "6961626c657320617265206d65742c206f7220746f2076616c69646174652072"
+                           + "657475726e2076616c7565732066726f6d2063616c6c7320746f206578746572"
+                           + "6e616c20636f6e7472616374732e000000000000000000000000000000000000\"\n"
+                        + "}"
+        );
+
+        EthCall ethCall = deserialiseResponse(EthCall.class);
+        assertTrue(ethCall.reverts());
+        assertThat(ethCall.getRevertReason(), is("Solidity uses state-reverting exceptions to "
+                                               + "handle errors. The require function should be "
+                                               + "used to ensure valid conditions, such as inputs, "
+                                               + "or contract state variables are met, or to "
+                                               + "validate return values from calls to "
+                                               + "external contracts."));
     }
 
     @Test
@@ -900,6 +932,21 @@ public class ResponseTest extends ResponseTester {
     }
 
     @Test
+    public void testTransactionChainId() {
+        Transaction transaction = new Transaction();
+        transaction.setV(0x25);
+        assertThat(transaction.getChainId(), equalTo(1L));
+    }
+
+    @Test
+    public void testTransactionLongChainId() {
+        Transaction transaction = new Transaction();
+        transaction.setV(0x4A817C823L);
+        assertThat(transaction.getChainId(), equalTo(10000000000L));
+    }
+
+
+    @Test
     public void testEthTransactionNull() {
         buildResponse(
                 "{\n"
@@ -1059,6 +1106,20 @@ public class ResponseTest extends ResponseTester {
                 EthGetTransactionReceipt.class);
         assertThat(ethGetTransactionReceipt.getTransactionReceipt().get(),
                 equalTo(transactionReceipt));
+    }
+
+    @Test
+    public void testTransactionReceiptIsStatusOK() {
+        TransactionReceipt transactionReceipt = new TransactionReceipt();
+        transactionReceipt.setStatus("0x1");
+        assertThat(transactionReceipt.isStatusOK(), equalTo(true));
+
+        TransactionReceipt transactionReceiptNoStatus = new TransactionReceipt();
+        assertThat(transactionReceiptNoStatus.isStatusOK(), equalTo(true));
+
+        TransactionReceipt transactionReceiptZeroStatus = new TransactionReceipt();
+        transactionReceiptZeroStatus.setStatus("0x0");
+        assertThat(transactionReceiptZeroStatus.isStatusOK(), equalTo(false));
     }
 
     @Test
