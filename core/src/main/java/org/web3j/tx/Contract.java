@@ -265,7 +265,8 @@ public abstract class Contract extends ManagedTransaction {
         TransactionReceipt receipt = send(contractAddress, data, weiValue, gasPrice, gasLimit);
 
         if (receipt.getStatus() != null
-                && !SUCCESSFUL_TRANSACTION_STATUS.equals(receipt.getStatus())) {
+                && !SUCCESSFUL_TRANSACTION_STATUS.equals(receipt.getStatus())
+                && !SUCCESSFUL_TRANSACTION_STATUS.substring(2).equals(receipt.getStatus())) {
             throw new TransactionException(
                     String.format(
                             "Transaction has failed with status: %s. "
