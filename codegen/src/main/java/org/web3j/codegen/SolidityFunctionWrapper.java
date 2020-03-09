@@ -566,7 +566,7 @@ public class SolidityFunctionWrapper extends Generator {
         String inputParams = addParameters(methodBuilder, functionDefinition.getInputs());
 
         List<TypeName> outputParameterTypes = buildTypeNames(functionDefinition.getOutputs());
-        if (functionDefinition.isConstant()) {
+        if (functionDefinition.isConstant() || (functionDefinition.getStateMutability()!= null && functionDefinition.getStateMutability().equals("view"))) {
             buildConstantFunction(
                     functionDefinition, methodBuilder, outputParameterTypes, inputParams);
         } else {
